@@ -37,6 +37,7 @@ public class ApiController {
     public void newRideRequest (@RequestBody Ride ride)
     {
         ride.setDriver(null);
+        ride.addGuest(username);
         today.addRide(ride);
     }
 
@@ -50,11 +51,7 @@ public class ApiController {
     @PostMapping(value = "/user/book")
     public void newBooking (@RequestBody Ride ride)
     {
-        /*
-            Wenn wir sitze zählen müssen wir hier die Zahl der verfügbaren Sitze dekrementieren.
-            Sonst müssen wir uns erstmal um nichts kümmern.
-         */
-        today.search(ride.getId());
+        today.search(ride.getId()).addGuest(username);
     }
 
     @PostMapping(value = "/sharer/close")

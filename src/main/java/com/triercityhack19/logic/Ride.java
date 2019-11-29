@@ -67,4 +67,9 @@ public class Ride implements Comparable<Ride>
     public void setDriver(String driver) {
         this.driver = driver;
     }
+
+    public void addGuest(String name)
+    {
+        guests.add(name);
+    }
 }
