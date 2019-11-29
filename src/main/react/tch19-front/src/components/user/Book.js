@@ -33,8 +33,7 @@ const Book = ({close, tour}) => {
                     <p>Fahrt {tour && "um " + moment(tour.starttime).format("HH:mm")} Buchen?</p>
                     <p>
                         <button
-                            className={"w3-btn w3-green"}
-                            >
+                            className={"w3-btn w3-blue"}>
                             Ja
                         </button>
                         <button

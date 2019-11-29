@@ -52,8 +52,24 @@ const User = ({}) => {
     };
 
     const getDistanceRight = (time) => {
-        const minutes = rightMoment.diff(moment(time), "minutes");
+        const minutes = rightMoment.diff(moment.unix(time), "minutes");
         return `${(minutes/120) * 100 -5}%`;
+    };
+
+
+    // TODO
+    const calculateNextTimeslot = () => {
+        if (!tours || !tours.length) return null;
+
+        let nearest = null;
+        tours.forEach(tour => {
+            if (!nearest)
+                nearest = tour.time;
+            else if(nearest.diff(moment.unix(tour.starttime))){
+
+            }
+        })
+
     };
 
     /*************
@@ -111,15 +127,16 @@ const User = ({}) => {
                                 <hr style={{backgroundColor: "black", height: 1}}/>
                                 {tours.map(tour =>
                                     <div
-                                        className={"button timelineButton"} style={{right: getDistanceRight(tour.starttime), position: "absolute", bottom: 0}}
+                                        className={"button timelineButton w3-animate-opacity"}
+                                        style={{right: getDistanceRight(tour.starttime), position: "absolute", bottom: 0}}
                                         onClick={() => {
                                             setTour(tour);
                                             setShowBook(true);
                                         }}>
-                                        <div className={"w3-green w3-card"} style={{padding: 4}}>
+                                        <div className={"w3-blue w3-card"} style={{padding: 4}}>
                                             Fahrt
                                         </div>
-                                        <div className={"w3-opacity w3-small"}>{moment(tour.starttime).format("HH:mm")}</div>
+                                        <div className={"w3-opacity w3-small"}>{moment.unix(tour.starttime).format("HH:mm")}</div>
                                     </div>
                                 )}
                             </div>
@@ -127,7 +144,10 @@ const User = ({}) => {
                             <div className={"w3-display-bottommiddle"}>{startTime}</div>
                             <div className={"w3-display-bottomright w3-tiny"}>{rightTime}</div>
                         </div>
-                        : <div>Zeitpunkt und weg wählen</div>
+                        :
+                        <div className={"w3-center"}>
+                            {!start || !destination ? "Bitte Start und Ziel auswählen": "Noch keine Fahrt in dieser Zeit"}
+                        </div>
                     }
                 </div>
             </div>
@@ -135,7 +155,10 @@ const User = ({}) => {
             <div style={{height:"33%"}}>
                 <div className={"w3-center"}>
                     <h3>Neu</h3>
-                    <div className={"w3-btn w3-blue"}>neue Fahrt um {startTime}</div>
+                    {!start || !destination ?
+                        "Bitte Start und Ziel auswählen":
+                        <div className={"w3-btn w3-blue"}>neue Fahrt um {startTime}</div>
+                    }
                 </div>
             </div>
             {showBook &&
