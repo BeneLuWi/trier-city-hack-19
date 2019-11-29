@@ -50,7 +50,7 @@ const User = ({}) => {
               starttime: moment(starttime).valueOf()
           };
 
-          axios.get("/api/user/find", data)
+          axios.post("/api/user/find", data)
               .then(res => setTours(res.data))
               .catch(err => console.log(err))
     };
