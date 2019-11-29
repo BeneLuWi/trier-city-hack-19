@@ -25,7 +25,7 @@ public class Day
         // Lieferfahrten
         for (String location: Hardcoded.locations)
         {
-            addRide(new Ride(Hardcoded.hq, location, 1572648843, false));
+            addRide(new Ride(Hardcoded.hq, location, Hardcoded.defaultstamp, false));
         }
     }
 
