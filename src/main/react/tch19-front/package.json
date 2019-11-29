@@ -3,9 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "axios": "^0.19.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-scripts": "^3.2.0"
+    "react-scripts": "^3.2.0",
+    "classnames": "^2.2.6",
+    "react-datepicker": "^2.10.1",
+    "moment": "^2.24.0"
   },
   "devDependencies": {},
   "scripts": {
@@ -25,5 +29,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "proxy": "http://10.143.102.114:8080"
 }

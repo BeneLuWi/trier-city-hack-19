@@ -1,0 +1,15 @@
+@import "w3.css";
+@import "animations.css";
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+.d-inline-block {
+  display: inline-block;
+}
+
+.button {
+  cursor: pointer;
+}
