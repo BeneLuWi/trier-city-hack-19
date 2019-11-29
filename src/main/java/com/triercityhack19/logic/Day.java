@@ -28,7 +28,7 @@ public class Day
         for (String location: Hardcoded.locations)
         {
             try {
-                addRide(new Ride(Hardcoded.hq, location, df.parse(Hardcoded.date + " 10:00"), false));
+                addRide(new Ride(Hardcoded.hq, location, df.parse(Hardcoded.date + " 10:00")));
             } catch (ParseException e) {
                 e.printStackTrace();
             }

@@ -19,8 +19,6 @@ public class ApiController {
     @Autowired
     Day today;
 
-    String username = SecurityContextHolder.getContext().getAuthentication().getName();
-
     @GetMapping(value = "/user/find", produces = "application/json")
     public ArrayList<Ride> getRidesForUser(@RequestBody Ride ride)
     {
@@ -36,6 +34,8 @@ public class ApiController {
     @PostMapping(value = "/user/new")
     public void newRideRequest (@RequestBody Ride ride)
     {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
         ride.setDriver(null);
         ride.addGuest(username);
         today.addRide(ride);
@@ -44,6 +44,8 @@ public class ApiController {
     @PostMapping(value = "/sharer/new")
     public void newRideOffer (@RequestBody Ride ride)
     {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
         ride.setDriver(username);
         today.addRide(ride);
     }
@@ -51,12 +53,16 @@ public class ApiController {
     @PostMapping(value = "/user/book")
     public void newBooking (@RequestBody Ride ride)
     {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
         today.search(ride.getId()).addGuest(username);
     }
 
     @PostMapping(value = "/sharer/close")
     public void closeBooking (@RequestBody Ride ride)
     {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
         today.search(ride.getId()).setDriver(username);
     }
 }
