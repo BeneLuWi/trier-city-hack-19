@@ -32,6 +32,8 @@ public class SecSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/login*", "/*.ico").permitAll()
                 .anyRequest().authenticated()
                 .and()
+                .httpBasic()
+                .and()
                 .formLogin()
                 .loginPage("/login.html")
                 .loginProcessingUrl("/perform_login")
