@@ -2,25 +2,27 @@ package com.triercityhack19.logic;
 
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 
 import static java.util.UUID.randomUUID;
 
 public class Ride implements Comparable<Ride>
 {
-    public Ride(String start, String dest, long starttime, boolean open) {
+    public Ride(String start, String dest, Long starttime, String driver) {
         this.id = randomUUID().toString();
         this.start = start;
         this.dest = dest;
         this.starttime = starttime;
-        this.open = open;
+        this.driver = driver;
     }
 
     private String id;
     private String start;
     private String dest;
     private Long starttime;
-    private boolean open;
+    private ArrayList<String> guests = new ArrayList<>();
+    private String driver = null;
 
     @Override
     public int compareTo(Ride o) {
@@ -60,10 +62,25 @@ public class Ride implements Comparable<Ride>
     }
 
     public boolean isOpen() {
-        return open;
+        return driver==null;
     }
 
-    public void setOpen(boolean open) {
-        this.open = open;
+    public String getDriver()
+    {
+        return this.driver;
+    }
+
+    public ArrayList<String> getGuests()
+    {
+        return this.guests;
+    }
+
+    public void setDriver(String driver) {
+        this.driver = driver;
+    }
+
+    public void addGuest(String name)
+    {
+        guests.add(name);
     }
 }

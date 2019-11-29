@@ -3,6 +3,7 @@ package com.triercityhack19.routing;
 import com.triercityhack19.logic.Day;
 import com.triercityhack19.logic.Ride;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -33,30 +34,35 @@ public class ApiController {
     @PostMapping(value = "/user/new")
     public void newRideRequest (@RequestBody Ride ride)
     {
-        ride.setOpen(true);
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        ride.setDriver(null);
+        ride.addGuest(username);
         today.addRide(ride);
     }
 
     @PostMapping(value = "/sharer/new")
     public void newRideOffer (@RequestBody Ride ride)
     {
-        ride.setOpen(false);
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        ride.setDriver(username);
         today.addRide(ride);
     }
 
     @PostMapping(value = "/user/book")
     public void newBooking (@RequestBody Ride ride)
     {
-        /*
-            Wenn wir sitze zählen müssen wir hier die Zahl der verfügbaren Sitze dekrementieren.
-            Sonst müssen wir uns erstmal um nichts kümmern.
-         */
-        today.search(ride.getId());
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        today.search(ride.getId()).addGuest(username);
     }
 
     @PostMapping(value = "/sharer/close")
     public void closeBooking (@RequestBody Ride ride)
     {
-        today.search(ride.getId()).setOpen(false);
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        today.search(ride.getId()).setDriver(username);
     }
 }
