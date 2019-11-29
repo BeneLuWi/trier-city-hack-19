@@ -8,7 +8,7 @@ import static java.util.UUID.randomUUID;
 
 public class Ride implements Comparable<Ride>
 {
-    public Ride(String start, String dest, Date starttime, boolean open) {
+    public Ride(String start, String dest, long starttime, boolean open) {
         this.id = randomUUID().toString();
         this.start = start;
         this.dest = dest;
@@ -19,7 +19,7 @@ public class Ride implements Comparable<Ride>
     private String id;
     private String start;
     private String dest;
-    private Date starttime;
+    private Long starttime;
     private boolean open;
 
     @Override
@@ -51,11 +51,11 @@ public class Ride implements Comparable<Ride>
         this.dest = dest;
     }
 
-    public Date getStarttime() {
+    public Long getStarttime() {
         return starttime;
     }
 
-    public void setStarttime(Date starttime) {
+    public void setStarttime(Long starttime) {
         this.starttime = starttime;
     }
 
