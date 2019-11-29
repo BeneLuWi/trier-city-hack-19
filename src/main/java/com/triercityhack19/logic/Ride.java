@@ -9,17 +9,18 @@ import static java.util.UUID.randomUUID;
 
 public class Ride implements Comparable<Ride>
 {
-    public Ride(String start, String dest, Date starttime) {
+    public Ride(String start, String dest, Long starttime, String driver) {
         this.id = randomUUID().toString();
         this.start = start;
         this.dest = dest;
         this.starttime = starttime;
+        this.driver = driver;
     }
 
     private String id;
     private String start;
     private String dest;
-    private Date starttime;
+    private Long starttime;
     private ArrayList<String> guests = new ArrayList<>();
     private String driver = null;
 
@@ -52,16 +53,26 @@ public class Ride implements Comparable<Ride>
         this.dest = dest;
     }
 
-    public Date getStarttime() {
+    public Long getStarttime() {
         return starttime;
     }
 
-    public void setStarttime(Date starttime) {
+    public void setStarttime(Long starttime) {
         this.starttime = starttime;
     }
 
     public boolean isOpen() {
         return driver==null;
+    }
+
+    public String getDriver()
+    {
+        return this.driver;
+    }
+
+    public ArrayList<String> getGuests()
+    {
+        return this.guests;
     }
 
     public void setDriver(String driver) {

@@ -15,23 +15,17 @@ import java.util.TreeSet;
 @Component
 public class Day
 {
-    public static int searchWindow = 60 * 60000; // 120 Minuten plusminus
+    public static int searchWindow = 60 * 60; // 120 Minuten plusminus
 
     ArrayList<Ride> rides = new ArrayList<Ride>();
 
     // Initialisiere Paketauslieferung
     public Day ()
     {
-        java.text.DateFormat df = new java.text.SimpleDateFormat("dd-M-yyyy hh:mm");
-
         // Lieferfahrten
         for (String location: Hardcoded.locations)
         {
-            try {
-                addRide(new Ride(Hardcoded.hq, location, df.parse(Hardcoded.date + " 10:00")));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            addRide(new Ride(Hardcoded.hq, location, Hardcoded.defaultstamp, Hardcoded.provider));
         }
     }
 
@@ -39,15 +33,15 @@ public class Day
     {
 
         ArrayList<Ride> toReturn = new ArrayList<>(rides);
-        System.out.println(toReturn.get(0).getStarttime().getTime());
-        System.out.println(toSearch.getStarttime().getTime());
-        System.out.println(Math.abs(toReturn.get(0).getStarttime().getTime() - toSearch.getStarttime().getTime()));
+        System.out.println(toReturn.get(0).getStarttime());
+        System.out.println(toSearch.getStarttime());
+        System.out.println(Math.abs(toReturn.get(0).getStarttime() - toSearch.getStarttime()));
         toReturn.removeIf(c -> (
                 !c.getStart().equals(toSearch.getStart())
                     ||
                 !c.getDest().equals(toSearch.getDest())
                     ||
-                Math.abs(c.getStarttime().getTime() - toSearch.getStarttime().getTime()) > searchWindow
+                Math.abs(c.getStarttime() - toSearch.getStarttime()) > searchWindow
         ));
 
         return toReturn;

@@ -1,0 +1,16 @@
+
+.animate-top {
+    position: relative;
+    animation: animatedtop 0.5s ease-in-out;
+}
+
+@keyframes animatedtop {
+    from {
+        top: -20px;
+        opacity: 0
+    }
+    to {
+        top: 0;
+        opacity: 1
+    }
+}

@@ -19,13 +19,13 @@ public class ApiController {
     @Autowired
     Day today;
 
-    @GetMapping(value = "/user/find", produces = "application/json")
+    @PostMapping(value = "/user/find", produces = "application/json")
     public ArrayList<Ride> getRidesForUser(@RequestBody Ride ride)
     {
         return today.search(ride);
     }
 
-    @GetMapping(value = "/sharer/find", produces = "application/json")
+    @PostMapping(value = "/sharer/find", produces = "application/json")
     public ArrayList<Ride> getRidesForSharer(@RequestBody Ride ride)
     {
         return today.search(ride);
