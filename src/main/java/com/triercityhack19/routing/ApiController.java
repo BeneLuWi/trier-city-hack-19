@@ -3,6 +3,7 @@ package com.triercityhack19.routing;
 import com.triercityhack19.logic.Day;
 import com.triercityhack19.logic.Ride;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -17,6 +18,8 @@ public class ApiController {
 
     @Autowired
     Day today;
+
+    String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
     @GetMapping(value = "/user/find", produces = "application/json")
     public ArrayList<Ride> getRidesForUser(@RequestBody Ride ride)
@@ -33,14 +36,14 @@ public class ApiController {
     @PostMapping(value = "/user/new")
     public void newRideRequest (@RequestBody Ride ride)
     {
-        ride.setOpen(true);
+        ride.setDriver(null);
         today.addRide(ride);
     }
 
     @PostMapping(value = "/sharer/new")
     public void newRideOffer (@RequestBody Ride ride)
     {
-        ride.setOpen(false);
+        ride.setDriver(username);
         today.addRide(ride);
     }
 
@@ -57,6 +60,6 @@ public class ApiController {
     @PostMapping(value = "/sharer/close")
     public void closeBooking (@RequestBody Ride ride)
     {
-        today.search(ride.getId()).setOpen(false);
+        today.search(ride.getId()).setDriver(username);
     }
 }
