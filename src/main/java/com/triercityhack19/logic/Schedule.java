@@ -150,10 +150,11 @@ public class Schedule
         ArrayList<Ride> toReturn = new ArrayList<>();
         for (Ride ride: rides)
         {
-            if (ride.getDriver().equals(name)) {
-                ride.currentRequestUser = name;
-                toReturn.add(ride);
-            }
+            if (ride.getDriver() != null)
+                if (ride.getDriver().equals(name)) {
+                    ride.currentRequestUser = name;
+                    toReturn.add(ride);
+                }
         }
         return toReturn;
     }
