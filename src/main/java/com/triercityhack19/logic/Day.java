@@ -57,6 +57,32 @@ public class Day
         return null;
     }
 
+    public ArrayList<Ride> searchUser (String name)
+    {
+        ArrayList<Ride> toReturn = new ArrayList<>();
+        for (Ride ride: rides)
+        {
+            if (ride.getGuests().contains(name)) {
+                ride.currentRequestUser = name;
+                toReturn.add(ride);
+            }
+        }
+        return toReturn;
+    }
+
+    public ArrayList<Ride> searchSharer (String name)
+    {
+        ArrayList<Ride> toReturn = new ArrayList<>();
+        for (Ride ride: rides)
+        {
+            if (ride.getDriver().equals(name)) {
+                ride.currentRequestUser = name;
+                toReturn.add(ride);
+            }
+        }
+        return toReturn;
+    }
+
     public void addRide (Ride ride)
     {
         rides.add(ride);

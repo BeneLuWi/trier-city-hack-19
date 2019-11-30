@@ -36,6 +36,20 @@ public class ApiController {
         return result;
     }
 
+    @PostMapping(value = "/user/rides")
+    public ArrayList<Ride> userRides ()
+    {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return today.searchUser(username);
+    }
+
+    @PostMapping(value = "/sharer/rides")
+    public ArrayList<Ride> sharerRides ()
+    {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return today.searchSharer(username);
+    }
+
     @PostMapping(value = "/user/new")
     public void newRideRequest (@RequestBody Ride ride)
     {
