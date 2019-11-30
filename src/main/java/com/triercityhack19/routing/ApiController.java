@@ -7,9 +7,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @CrossOrigin
 @RestController
@@ -22,13 +19,21 @@ public class ApiController {
     @PostMapping(value = "/user/find", produces = "application/json")
     public ArrayList<Ride> getRidesForUser(@RequestBody Ride ride)
     {
-        return today.search(ride);
+        return getRides(ride);
     }
 
     @PostMapping(value = "/sharer/find", produces = "application/json")
     public ArrayList<Ride> getRidesForSharer(@RequestBody Ride ride)
     {
-        return today.search(ride);
+        return getRides(ride);
+    }
+
+    private ArrayList<Ride> getRides (Ride ride)
+    {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        ArrayList<Ride> result = today.search(ride);
+        result.forEach(c -> c.currentRequestUser = username);
+        return result;
     }
 
     @PostMapping(value = "/user/new")
