@@ -15,17 +15,6 @@ const User = ({}) => {
      *
      *************/
 
-    const exampleTours = [
-        {
-            id: "0123",
-            starttime: moment().subtract(20, "minutes")
-        },
-        {
-            id: "1230123",
-            starttime: moment().add(10, "minutes")
-        }
-    ];
-
     const [showBook, setShowBook] = useState(false);
     const [tour, setTour] = useState(null);
 
@@ -44,16 +33,18 @@ const User = ({}) => {
      *************/
 
     const find = (starttime) => {
-          const data = {
-              start: start.value,
-              destination: destination.value,
-              starttime: moment(starttime).valueOf()
-          };
 
-          axios.get("/api/user/find", data)
-              .then(res => setTours(res.data))
-              .catch(err => console.log(err))
-    };
+        if (!start || !destination) return;
+        const data = {
+          start: start.value,
+          dest: destination.value,
+          starttime: moment(starttime).valueOf()/1000
+        };
+
+        axios.post("/api/user/find", data)
+          .then(res => setTours(res.data))
+          .catch(err => console.log(err))
+};
 
     const loadTours = (date) => {
         setStartDate(date);
@@ -61,8 +52,24 @@ const User = ({}) => {
     };
 
     const getDistanceRight = (time) => {
-        const minutes = rightMoment.diff(moment(time), "minutes");
+        const minutes = rightMoment.diff(moment.unix(time), "minutes");
         return `${(minutes/120) * 100 -5}%`;
+    };
+
+
+    // TODO
+    const calculateNextTimeslot = () => {
+        if (!tours || !tours.length) return null;
+
+        let nearest = null;
+        tours.forEach(tour => {
+            if (!nearest)
+                nearest = tour.time;
+            else if(nearest.diff(moment.unix(tour.starttime))){
+
+            }
+        })
+
     };
 
     /*************
@@ -86,15 +93,16 @@ const User = ({}) => {
 
     return (
         <div style={{height:"99vh"}}>
-            <div style={{height:"33%"}}>
-                <DestinationPicker
-                    start={start}
-                    destination={destination}
-                    setDestination={setDestination}
-                    setStart={setStart}
-
-                />
-                <div className={"w3-center"}>
+            <div style={{height:"20%"}} className={"w3-blue"}>
+                <div className={"w3-margin-top"}>
+                    <DestinationPicker
+                        start={start}
+                        destination={destination}
+                        setDestination={setDestination}
+                        setStart={setStart}
+                    />
+                </div>
+                <div className={"w3-center w3-margin-top"}>
                     <DatePicker
                         selected={startDate}
                         onChange={date => loadTours(date)}
@@ -108,7 +116,7 @@ const User = ({}) => {
                 </div>
             </div>
 
-            <div style={{height:"33%"}}>
+            <div style={{height:"33%"}} className={"w3-green"}>
                 <div className={"w3-container"}>
                     <div className={"w3-center"}>
                         <h3>Mitfahren</h3>
@@ -119,15 +127,16 @@ const User = ({}) => {
                                 <hr style={{backgroundColor: "black", height: 1}}/>
                                 {tours.map(tour =>
                                     <div
-                                        className={"button timelineButton"} style={{right: getDistanceRight(tour.starttime), position: "absolute", bottom: 0}}
+                                        className={"button timelineButton w3-animate-opacity"}
+                                        style={{right: getDistanceRight(tour.starttime), position: "absolute", bottom: 0}}
                                         onClick={() => {
                                             setTour(tour);
                                             setShowBook(true);
                                         }}>
-                                        <div className={"w3-green w3-card"} style={{padding: 4}}>
+                                        <div className={"w3-blue w3-card"} style={{padding: 4}}>
                                             Fahrt
                                         </div>
-                                        <div className={"w3-opacity w3-small"}>{moment(tour.starttime).format("HH:mm")}</div>
+                                        <div className={"w3-opacity w3-small"}>{moment.unix(tour.starttime).format("HH:mm")}</div>
                                     </div>
                                 )}
                             </div>
@@ -135,7 +144,10 @@ const User = ({}) => {
                             <div className={"w3-display-bottommiddle"}>{startTime}</div>
                             <div className={"w3-display-bottomright w3-tiny"}>{rightTime}</div>
                         </div>
-                        : <div>Zeitpunkt und weg wählen</div>
+                        :
+                        <div className={"w3-center"}>
+                            {!start || !destination ? "Bitte Start und Ziel auswählen": "Noch keine Fahrt in dieser Zeit"}
+                        </div>
                     }
                 </div>
             </div>
@@ -143,7 +155,10 @@ const User = ({}) => {
             <div style={{height:"33%"}}>
                 <div className={"w3-center"}>
                     <h3>Neu</h3>
-                    <div className={"w3-btn w3-blue"}>neue Fahrt um {startTime}</div>
+                    {!start || !destination ?
+                        "Bitte Start und Ziel auswählen":
+                        <div className={"w3-btn w3-blue"}>neue Fahrt um {startTime}</div>
+                    }
                 </div>
             </div>
             {showBook &&
@@ -157,4 +172,4 @@ const User = ({}) => {
 
 };
 
-export default User
+export default User;
