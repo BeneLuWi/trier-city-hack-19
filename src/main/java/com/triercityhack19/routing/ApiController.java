@@ -1,15 +1,12 @@
 package com.triercityhack19.routing;
 
-import com.triercityhack19.logic.Day;
+import com.triercityhack19.logic.Schedule;
 import com.triercityhack19.logic.Ride;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @CrossOrigin
 @RestController
@@ -17,18 +14,18 @@ import java.util.stream.Collectors;
 public class ApiController {
 
     @Autowired
-    Day today;
+    Schedule schedule;
 
     @PostMapping(value = "/user/find", produces = "application/json")
     public ArrayList<Ride> getRidesForUser(@RequestBody Ride ride)
     {
-        return today.search(ride);
+        return schedule.search(ride);
     }
 
     @PostMapping(value = "/sharer/find", produces = "application/json")
     public ArrayList<Ride> getRidesForSharer(@RequestBody Ride ride)
     {
-        return today.search(ride);
+        return schedule.search(ride);
     }
 
     @PostMapping(value = "/user/new")
@@ -38,7 +35,7 @@ public class ApiController {
 
         ride.setDriver(null);
         ride.addGuest(username);
-        today.addRide(ride);
+        schedule.addRide(ride);
     }
 
     @PostMapping(value = "/sharer/new")
@@ -47,7 +44,7 @@ public class ApiController {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
         ride.setDriver(username);
-        today.addRide(ride);
+        schedule.addRide(ride);
     }
 
     @PostMapping(value = "/user/book")
@@ -55,7 +52,7 @@ public class ApiController {
     {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        today.search(ride.getId()).addGuest(username);
+        schedule.search(ride.getId()).addGuest(username);
     }
 
     @PostMapping(value = "/sharer/close")
@@ -63,6 +60,6 @@ public class ApiController {
     {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        today.search(ride.getId()).setDriver(username);
+        schedule.search(ride.getId()).setDriver(username);
     }
 }
