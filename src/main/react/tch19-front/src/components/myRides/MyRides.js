@@ -13,8 +13,8 @@ const MyRides = ({}) => {
     const [tours, setTours] = useState([]);
 
     useEffect(() => {
-
-    });
+        getTours()
+    },[]);
 
     /*************
      *
@@ -26,7 +26,7 @@ const MyRides = ({}) => {
         axios.get("/api/rides")
             .then(res => setTours(res.data))
             .catch(err => console.log(err))
-    }
+    };
 
     /*************
      *
