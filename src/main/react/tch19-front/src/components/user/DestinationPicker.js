@@ -33,23 +33,26 @@ const DestinationPicker = ({setStart, start, destination, setDestination}) => {
 
 
     return (
-        <div className="w3-row">
-            <div className="w3-col s5 w3-text-black">
+        <div className="w3-padding">
+            <div className="w3-text-black place-select">
                 <Select
                     value={start}
                     onChange={setStart}
                     options={options}
                 />
             </div>
-            <div className="w3-col s2 w3-center" style={{paddingTop: 10}}>
+            <div className="w3-center">
                 <div>nach</div>
             </div>
-            <div className="w3-col s5 w3-text-black">
+            <div className="w3-text-black place-select">
                 <Select
                     value={destination}
                     onChange={setDestination}
                     options={options}
                 />
+            </div>
+            <div className="w3-center">
+                <div>um</div>
             </div>
         </div>
     )

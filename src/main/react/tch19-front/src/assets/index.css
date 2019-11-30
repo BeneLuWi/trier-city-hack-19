@@ -17,3 +17,8 @@ body {
 .timelineButton {
 
 }
+
+.place-select {
+  width: 80%;
+  margin: auto;
+}

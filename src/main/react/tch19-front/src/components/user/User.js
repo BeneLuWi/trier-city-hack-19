@@ -5,6 +5,7 @@ import DestinationPicker from "./DestinationPicker";
 import moment from "moment"
 import Book from "./Book";
 import axios from "axios";
+import New from "./New";
 
 
 const User = ({}) => {
@@ -19,12 +20,14 @@ const User = ({}) => {
     const [tour, setTour] = useState(null);
 
     const [showNew, setShowNew] = useState(false);
+    const [newTour, setNewTour] = useState(null);
     const [startDate, setStartDate] = useState(new Date());
     const [tours, setTours] = useState([]);
 
     const [start, setStart] = useState(null);
     const [destination, setDestination] = useState(null);
 
+    const [nearest, setNearest] = useState(null);
 
     /*************
      *
@@ -32,17 +35,25 @@ const User = ({}) => {
      *
      *************/
 
-    const find = (starttime) => {
+    const update = () => {
+        loadTours(startDate);
+    };
+    const find = (date) => {
 
-        if (!start || !destination) return;
+        if (!start || !destination) {
+            return;
+        }
         const data = {
           start: start.value,
           dest: destination.value,
-          starttime: moment(starttime).valueOf()/1000
+          starttime: moment(date).valueOf()/1000
         };
 
         axios.post("/api/user/find", data)
-          .then(res => setTours(res.data))
+          .then(res => {
+              setTours(res.data);
+              calculateNextTimeslot(res.data, date)
+          })
           .catch(err => console.log(err))
 };
 
@@ -57,18 +68,32 @@ const User = ({}) => {
     };
 
 
-    // TODO
-    const calculateNextTimeslot = () => {
-        if (!tours || !tours.length) return null;
+
+    const calculateNextTimeslot = (tours, startDate) => {
+        setNearest(null);
+        if (!tours || !tours.length) return;
+        const starttime = moment(startDate).valueOf() / 1000;
 
         let nearest = null;
         tours.forEach(tour => {
             if (!nearest)
-                nearest = tour.time;
-            else if(nearest.diff(moment.unix(tour.starttime))){
-
+                nearest = tour;
+            else if(Math.abs(starttime - nearest.time) < Math.abs((starttime - tour.starttime))){
+                nearest = tour;
             }
-        })
+        });
+
+        if (!nearest) return;
+
+        if (Math.abs(moment.unix(nearest.starttime).diff(moment(startDate), "minutes")) < 20)  {
+            setNearest({...nearest, cost: "veryhigh"})
+        } else if (Math.abs(moment.unix(nearest.starttime).diff(moment(startDate), "minutes")) < 40)  {
+            setNearest({...nearest, cost: "high"})
+        } else if (Math.abs(moment.unix(nearest.starttime).diff(moment(startDate), "minutes")) < 60)  {
+            setNearest({...nearest, cost: "mediumhigh"})
+        } else {
+            setNearest(null);
+        }
 
     };
 
@@ -92,8 +117,8 @@ const User = ({}) => {
     const startTime = moment(startDate).format("HH:mm");
 
     return (
-        <div style={{height:"99vh"}}>
-            <div style={{height:"20%"}} className={"w3-blue"}>
+        <div style={{height:"100%"}}>
+            <div style={{height:"33%"}} className={"w3-blue"}>
                 <div className={"w3-margin-top"}>
                     <DestinationPicker
                         start={start}
@@ -109,7 +134,7 @@ const User = ({}) => {
                         showTimeSelect
                         timeFormat="HH:mm"
                         timeIntervals={5}
-                        timeCaption="Startzeit"
+                        timeCaption="Zeit"
                         dateFormat="MMMM d, yyyy HH:mm"
                         todayButton="Heute"
                     />
@@ -136,12 +161,14 @@ const User = ({}) => {
                                         <div className={"w3-blue w3-card"} style={{padding: 4}}>
                                             Fahrt
                                         </div>
-                                        <div className={"w3-opacity w3-small"}>{moment.unix(tour.starttime).format("HH:mm")}</div>
+                                        <div className={"w3-small"}>{moment.unix(tour.starttime).format("HH:mm")}</div>
                                     </div>
                                 )}
                             </div>
                             <div className={"w3-display-bottomleft w3-tiny"}>{leftTime}</div>
-                            <div className={"w3-display-bottommiddle"}>{startTime}</div>
+                            <div className={"w3-display-bottommiddle"}>
+                                {startTime}
+                            </div>
                             <div className={"w3-display-bottomright w3-tiny"}>{rightTime}</div>
                         </div>
                         :
@@ -157,7 +184,47 @@ const User = ({}) => {
                     <h3>Neu</h3>
                     {!start || !destination ?
                         "Bitte Start und Ziel auswählen":
-                        <div className={"w3-btn w3-blue"}>neue Fahrt um {startTime}</div>
+                        <div>
+                            <div
+                                onClick={() => {
+                                    setNewTour({
+                                        starttime : Math.floor(moment(startDate).valueOf()/1000),
+                                        start: start.value,
+                                        destination: destination.value
+                                    });
+                                    setShowNew(true);
+
+
+                                }}
+                                className={
+                                    cl("w3-btn w3-blue",
+                                        {"w3-orange": nearest && nearest.cost === "high"},
+                                        {"w3-yellow": nearest && nearest.cost === "mediumhigh"},
+                                        {"w3-red": nearest && nearest.cost === "veryhigh"},
+                                        {"w3-blue": !nearest})
+                                }>
+                                neue Fahrt um {startTime}
+                            </div>
+                            {nearest &&
+                                <div className={"w3-margin-top"}>
+                                    <div>
+                                        Diese Fahrt wird {nearest.cost === "veryhigh" ? "sehr viel " : nearest.cost === "mediumhigh" && "etwas "}teurer.
+                                    </div>
+                                    <div>
+                                        Fahr doch um &nbsp;
+                                        <div
+                                            className={"w3-btn w3-blue"}
+                                            onClick={() => {
+                                                setTour(nearest);
+                                                setShowBook(true);
+                                            }}>
+                                            {moment.unix(nearest.starttime).format("HH:mm")}
+                                        </div> mit
+
+                                    </div>
+                                </div>
+                            }
+                        </div>
                     }
                 </div>
             </div>
@@ -165,7 +232,15 @@ const User = ({}) => {
                 <Book
                     tour={tour}
                     close={() => setShowBook(false)}
+                    update={update}
                 />
+            }
+            {showNew &&
+            <New
+                update={update}
+                tour={newTour}
+                close={() => setShowNew(false)}
+            />
             }
         </div>
     )

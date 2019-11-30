@@ -4,8 +4,11 @@ import User from "./components/user/User";
 
 const App = () => {
 
-    return <User/>
-
+    return(
+    <div style={{height:"100vh"}}>
+        <User/>
+    </div>
+    )
 
 };
 

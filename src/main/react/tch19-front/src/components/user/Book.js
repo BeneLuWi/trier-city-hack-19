@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from 'react'
 import moment from "moment";
 
+import axios from "axios";
 
-const Book = ({close, tour}) => {
+const Book = ({close, tour, update}) => {
 
     /*************
      *
@@ -16,6 +17,14 @@ const Book = ({close, tour}) => {
      *  FUNCTIONS
      *
      *************/
+    const book = () => {
+        axios.post("/api/user/book", {...tour, dest: tour.destination})
+            .then(() => {
+                update();
+                close();
+            })
+            .catch(err => console.log(err))
+    };
 
 
     /*************
@@ -27,12 +36,13 @@ const Book = ({close, tour}) => {
 
     return (
         <div className="w3-modal" style={{display: "block"}}>
-            <div className="w3-modal-content animate-top" style={{width: "60%"}}>
+            <div className="w3-modal-content animate-top" style={{width: "80%"}}>
                 <div className="w3-container">
                     <span onClick={close} className="w3-button w3-display-topright">&times;</span>
-                    <p>Fahrt {tour && "um " + moment(tour.starttime).format("HH:mm")} Buchen?</p>
+                    <p>Fahrt {tour && "um " + moment.unix(tour.starttime).format("HH:mm")} Buchen?</p>
                     <p>
                         <button
+                            onClick={book}
                             className={"w3-btn w3-blue"}>
                             Ja
                         </button>

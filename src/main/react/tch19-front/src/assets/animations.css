@@ -1,7 +1,7 @@
 
 .animate-top {
     position: relative;
-    animation: animatedtop 0.5s ease-in-out;
+    animation: animatedtop 0.2s ease-in-out;
 }
 
 @keyframes animatedtop {
