@@ -79,7 +79,7 @@ const User = ({}) => {
             if (!nearest)
                 nearest = tour;
             else if(Math.abs(starttime - nearest.time) < Math.abs((starttime - tour.starttime))){
-                if (nearest.open) nearest = tour;
+                nearest = tour;
             }
         });
 

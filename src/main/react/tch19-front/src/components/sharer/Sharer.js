@@ -79,11 +79,12 @@ const Sharer = ({}) => {
             if (!nearest)
                 nearest = tour;
             else if(Math.abs(starttime - nearest.time) < Math.abs((starttime - tour.starttime))){
-                nearest = tour;
+                if (nearest.open) nearest = tour;
             }
         });
 
         if (!nearest) return;
+
 
         if (Math.abs(moment.unix(nearest.starttime).diff(moment(startDate), "minutes")) < 20)  {
             setNearest({...nearest, cost: "veryhigh"})
@@ -155,7 +156,7 @@ const Sharer = ({}) => {
                                         className={"button timelineButton w3-animate-opacity"}
                                         style={{right: getDistanceRight(tour.starttime), position: "absolute", bottom: 0}}
                                         onClick={() => {
-                                            if(tour.isDriver) return;
+                                            if(tour.isDriver || !tour.isOpen) return;
                                             setTour(tour);
                                             setShowBook(true);
                                         }}>
@@ -211,7 +212,7 @@ const Sharer = ({}) => {
                                     <div>
                                         Hier fahren wahrscheinlich {nearest.cost === "veryhigh" ? "keine " : nearest.cost === "mediumhigh" ? "wenige " : nearest.cost === "high" && "sehr wenige "}Leute mit.
                                     </div>
-                                    <div>
+                                    {nearest.open && <div>
                                         Übernimm doch die Fahrt um &nbsp;
                                         <div
                                             className={"w3-btn w3-blue"}
@@ -222,7 +223,7 @@ const Sharer = ({}) => {
                                             {moment.unix(nearest.starttime).format("HH:mm")}
                                         </div>
 
-                                    </div>
+                                    </div>}
                                 </div>
                             }
                         </div>

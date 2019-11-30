@@ -42,7 +42,7 @@ const MyRides = ({}) => {
                 <ul className={"w3-ul"}>
                     {tours.filter(t => t.isGuest).map(tour =>
                         <li key={tour.id}>
-                            Von {tour.start} nach {tour.dest}: {moment.unix(tour.starttime).format("DD:YY, HH:mm")}
+                            Von {tour.start} nach {tour.dest}: {moment.unix(tour.starttime).format("DD.MM. HH:mm")}
                         </li>
                     )}
                 </ul>
@@ -52,7 +52,7 @@ const MyRides = ({}) => {
                 <ul className={"w3-ul"}>
                     {tours.filter(t => t.isDriver).map(tour =>
                         <li key={tour.id}>
-                            Von {tour.start} nach {tour.dest}: {moment.unix(tour.starttime).format("DD YY HH:mm")}
+                            Von {tour.start} nach {tour.dest}: {moment.unix(tour.starttime).format("DD.MM HH:mm")}
                         </li>
                     )}
                 </ul>
