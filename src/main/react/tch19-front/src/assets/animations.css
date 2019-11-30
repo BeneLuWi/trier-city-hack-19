@@ -14,3 +14,35 @@
         opacity: 1
     }
 }
+
+.animate-right {
+    position: relative;
+    animation: animatedright 0.3s ease-in-out;
+}
+
+@keyframes animatedright {
+    from {
+        left: 20px;
+        opacity: 0
+    }
+    to {
+        left: 0;
+        opacity: 1
+    }
+}
+
+.animate-left {
+    position: relative;
+    animation: animatedleft 0.3s ease-in-out;
+}
+
+@keyframes animatedleft {
+    from {
+        left: -20px;
+        opacity: 0
+    }
+    to {
+        left: 0;
+        opacity: 1
+    }
+}

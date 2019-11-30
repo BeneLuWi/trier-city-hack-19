@@ -8,7 +8,7 @@ import axios from "axios";
 import New from "./New";
 
 
-const User = ({}) => {
+const Sharer = ({}) => {
 
     /*************
      *
@@ -49,7 +49,7 @@ const User = ({}) => {
           starttime: moment(date).valueOf()/1000
         };
 
-        axios.post("/api/user/find", data)
+        axios.post("/api/sharer/find", data)
           .then(res => {
               setTours(res.data);
               calculateNextTimeslot(res.data, date)
@@ -79,7 +79,7 @@ const User = ({}) => {
             if (!nearest)
                 nearest = tour;
             else if(Math.abs(starttime - nearest.time) < Math.abs((starttime - tour.starttime))){
-                if (nearest.open) nearest = tour;
+                nearest = tour;
             }
         });
 
@@ -117,7 +117,7 @@ const User = ({}) => {
     const startTime = moment(startDate).format("HH:mm");
 
     return (
-        <div style={{height:"100%"}} className={"animate-left"}>
+        <div style={{height:"100%"}} className={"animate-right"}>
             <div style={{height:"33%"}} className={"w3-blue"}>
                 <div className={"w3-margin-top"}>
                     <DestinationPicker
@@ -144,7 +144,7 @@ const User = ({}) => {
             <div style={{height:"33%"}} className={"w3-green"}>
                 <div className={"w3-container"}>
                     <div className={"w3-center"}>
-                        <h3>Mitfahren</h3>
+                        <h3>Fahrten übernehmen</h3>
                     </div>
                     {tours.length ?
                         <div style={timelineStyle} className={"w3-display-container"}>
@@ -155,11 +155,11 @@ const User = ({}) => {
                                         className={"button timelineButton w3-animate-opacity"}
                                         style={{right: getDistanceRight(tour.starttime), position: "absolute", bottom: 0}}
                                         onClick={() => {
-                                            if(tour.isGuest) return;
+                                            if(tour.isDriver) return;
                                             setTour(tour);
                                             setShowBook(true);
                                         }}>
-                                        <div className={cl("w3-card", {"w3-light-green": tour.isGuest}, {"w3-blue": !tour.isGuest})} style={{padding: 4}}>
+                                        <div className={cl("w3-card", {"w3-light-green": tour.isDriver}, {"w3-blue": !tour.isDriver})} style={{padding: 4}}>
                                             Fahrt
                                         </div>
                                         <div className={"w3-small"}>{moment.unix(tour.starttime).format("HH:mm")}</div>
@@ -209,10 +209,10 @@ const User = ({}) => {
                             {nearest &&
                                 <div className={"w3-margin-top"}>
                                     <div>
-                                        Diese Fahrt wird {nearest.cost === "veryhigh" ? "sehr viel " : nearest.cost === "mediumhigh" && "etwas "}teurer.
+                                        Hier fahren wahrscheinlich {nearest.cost === "veryhigh" ? "keine " : nearest.cost === "mediumhigh" ? "wenige " : nearest.cost === "high" && "sehr wenige "}Leute mit.
                                     </div>
                                     <div>
-                                        Fahr doch um &nbsp;
+                                        Übernimm doch die Fahrt um &nbsp;
                                         <div
                                             className={"w3-btn w3-blue"}
                                             onClick={() => {
@@ -220,7 +220,7 @@ const User = ({}) => {
                                                 setShowBook(true);
                                             }}>
                                             {moment.unix(nearest.starttime).format("HH:mm")}
-                                        </div> mit
+                                        </div>
 
                                     </div>
                                 </div>
@@ -248,4 +248,4 @@ const User = ({}) => {
 
 };
 
-export default User;
+export default Sharer;
