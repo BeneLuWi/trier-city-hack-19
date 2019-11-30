@@ -1,6 +1,6 @@
 package com.triercityhack19.routing;
 
-import com.triercityhack19.logic.Day;
+import com.triercityhack19.logic.Schedule;
 import com.triercityhack19.logic.Ride;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class ApiController {
 
     @Autowired
-    Day today;
+    Schedule schedule;
 
     @PostMapping(value = "/user/find", produces = "application/json")
     public ArrayList<Ride> getRidesForUser(@RequestBody Ride ride)
@@ -31,7 +31,7 @@ public class ApiController {
     private ArrayList<Ride> getRides (Ride ride)
     {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        ArrayList<Ride> result = today.search(ride);
+        ArrayList<Ride> result = schedule.search(ride);
         result.forEach(c -> c.currentRequestUser = username);
         return result;
     }
@@ -40,14 +40,23 @@ public class ApiController {
     public ArrayList<Ride> userRides ()
     {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        return today.searchUser(username);
+        return schedule.searchUser(username);
     }
 
     @PostMapping(value = "/sharer/rides")
     public ArrayList<Ride> sharerRides ()
     {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        return today.searchSharer(username);
+        return schedule.searchSharer(username);
+    }
+
+    @PostMapping(value = "/rides")
+    public ArrayList<Ride> myRides ()
+    {
+        ArrayList<Ride> toReturn = new ArrayList<>();
+        toReturn.addAll(sharerRides());
+        toReturn.addAll(userRides());
+        return toReturn;
     }
 
     @PostMapping(value = "/user/new")
@@ -57,7 +66,7 @@ public class ApiController {
 
         ride.setDriver(null);
         ride.addGuest(username);
-        today.addRide(ride);
+        schedule.addRide(ride);
     }
 
     @PostMapping(value = "/sharer/new")
@@ -66,7 +75,7 @@ public class ApiController {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
         ride.setDriver(username);
-        today.addRide(ride);
+        schedule.addRide(ride);
     }
 
     @PostMapping(value = "/user/book")
@@ -74,7 +83,7 @@ public class ApiController {
     {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        today.search(ride.getId()).addGuest(username);
+        schedule.search(ride.getId()).addGuest(username);
     }
 
     @PostMapping(value = "/sharer/close")
@@ -82,6 +91,6 @@ public class ApiController {
     {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        today.search(ride.getId()).setDriver(username);
+        schedule.search(ride.getId()).setDriver(username);
     }
 }
