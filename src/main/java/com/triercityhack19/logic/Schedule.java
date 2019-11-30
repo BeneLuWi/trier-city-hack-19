@@ -43,51 +43,52 @@ public class Schedule
 
             // Kopp - Birresborn
             template = Topology.directRides[2].clone();
-            template.setStarttime((long) 15*3600);
+            template.setStarttime((long) 15*60);
             addThreeEntries(template, daystart);
 
             // Kopp - Mürlenbach
-            start = (long) 15*3600;
+            start = (long) 15*60;
             template = new Ride("Kopp", "Mürlenbach", start);
             addThreeEntries(template, daystart);
 
             // Kopp - Salm
-            start = (long) 15*3600;
+            start = (long) 15*60;
             template = new Ride("Kopp", "Salm", start);
             addThreeEntries(template, daystart);
 
             // Kopp - Gerolstein
-            start = (long) 15*3600;
+            start = (long) 15*60;
             template = new Ride("Kopp", "Gerolstein", start);
+            addThreeEntries(template, daystart);
 
             // Birresborn - Mürlenbach
             template = Topology.directRides[4].clone();
-            template.setStarttime((long) 20*3600);
+            template.setStarttime((long) 20*60);
             addThreeEntries(template, daystart);
 
             // Birresborn - Salm
-            start = (long) 20*3600;
+            start = (long) 20*60;
             template = new Ride("Birresborn", "Salm", start);
             addThreeEntries(template, daystart);
 
             // Birresborn - Gerolstein
-            start = (long) 20*3600;
+            start = (long) 20*60;
             template = new Ride("Birresborn", "Gerolstein", start);
             addThreeEntries(template, daystart);
 
             // Mürlenbach - Salm
             template = Topology.directRides[6].clone();
-            template.setStarttime((long) 25*3600);
+            template.setStarttime((long) 25*60);
             addThreeEntries(template, daystart);
 
             // Mürlenbach - Gerolstein
-            start = (long) 25*3600;
+            start = (long) 25*60;
             template = new Ride("Mürlenbach", "Gerolstein", start);
             addThreeEntries(template, daystart);
 
             // Salm - Gerolstein
             template = Topology.directRides[9].clone();
-            template.setStarttime((long) 35*3600);
+            template.setStarttime((long) 35*60);
             addThreeEntries(template, daystart);
         }
     }
