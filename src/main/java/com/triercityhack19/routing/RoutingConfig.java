@@ -9,8 +9,10 @@ public class RoutingConfig implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-//        registry.addViewController("/admin")
-//                .setViewName("forward:/");
+        registry.addViewController("/sharer")
+                .setViewName("forward:/");
+        registry.addViewController("/mytours")
+                .setViewName("forward:/");
     }
 
 }
