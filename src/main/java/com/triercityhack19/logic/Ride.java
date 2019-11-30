@@ -36,7 +36,6 @@ public class Ride implements Comparable<Ride>
     private Long starttime;
     private ArrayList<String> guests = new ArrayList<>();
     private String driver = null;
-    private long duration;
 
     @Override
     public int compareTo(Ride o) {
