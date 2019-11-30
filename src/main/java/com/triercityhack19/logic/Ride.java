@@ -1,9 +1,7 @@
 package com.triercityhack19.logic;
 
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 
 import static java.util.UUID.randomUUID;
 
@@ -82,5 +80,15 @@ public class Ride implements Comparable<Ride>
     public void addGuest(String name)
     {
         guests.add(name);
+    }
+
+    public String currentRequestUser = "";
+    public boolean isisGuest()
+    {
+        return guests.contains(currentRequestUser);
+    }
+    public boolean isisDriver()
+    {
+        return driver==null? false : driver.equals(currentRequestUser);
     }
 }
