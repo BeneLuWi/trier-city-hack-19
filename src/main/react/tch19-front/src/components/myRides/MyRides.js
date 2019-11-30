@@ -23,7 +23,7 @@ const MyRides = ({}) => {
      *************/
 
     const getTours = () => {
-        axios.get("/api/rides")
+        axios.post("/api/rides")
             .then(res => setTours(res.data))
             .catch(err => console.log(err))
     };
@@ -42,7 +42,7 @@ const MyRides = ({}) => {
                 <ul className={"w3-ul"}>
                     {tours.filter(t => t.isGuest).map(tour =>
                         <li key={tour.id}>
-                            Von {tour.start} nach {tour.dest} um {moment.unix(tour.starttime).format("DD YY HH:mm")}
+                            Von {tour.start} nach {tour.dest}: {moment.unix(tour.starttime).format("DD:YY, HH:mm")}
                         </li>
                     )}
                 </ul>
@@ -52,7 +52,7 @@ const MyRides = ({}) => {
                 <ul className={"w3-ul"}>
                     {tours.filter(t => t.isDriver).map(tour =>
                         <li key={tour.id}>
-                            Von {tour.start} nach {tour.dest} um {moment.unix(tour.starttime).format("DD YY HH:mm")}
+                            Von {tour.start} nach {tour.dest}: {moment.unix(tour.starttime).format("DD YY HH:mm")}
                         </li>
                     )}
                 </ul>
