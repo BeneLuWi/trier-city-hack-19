@@ -22,7 +22,7 @@
 
 @keyframes animatedright {
     from {
-        left: 20px;
+        left: 10px;
         opacity: 0
     }
     to {
@@ -38,7 +38,7 @@
 
 @keyframes animatedleft {
     from {
-        left: -20px;
+        left: -10px;
         opacity: 0
     }
     to {
