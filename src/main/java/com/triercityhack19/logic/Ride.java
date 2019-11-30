@@ -25,7 +25,7 @@ public class Ride implements Comparable<Ride>
 
     public Ride()
     {
-        super();
+        this.id = randomUUID().toString();
     }
 
     private String id;
