@@ -2,15 +2,8 @@ package com.triercityhack19.logic;
 
 import org.springframework.stereotype.Component;
 
-import java.text.ParseException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
-import java.util.TreeSet;
 
 @Component
 public class Day
@@ -23,9 +16,9 @@ public class Day
     public Day ()
     {
         // Lieferfahrten
-        for (String location: Hardcoded.locations)
+        for (String location: Topology.locations)
         {
-            addRide(new Ride(Hardcoded.hq, location, Hardcoded.defaultstamp, Hardcoded.provider));
+            addRide(new Ride(Topology.hq, location, Topology.defaultstamp, Topology.provider));
         }
     }
 

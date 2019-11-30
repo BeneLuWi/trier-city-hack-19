@@ -17,6 +17,14 @@ public class Ride implements Comparable<Ride>
         this.driver = driver;
     }
 
+    public Ride(String start, String dest, Long starttime) {
+        this.id = randomUUID().toString();
+        this.start = start;
+        this.dest = dest;
+        this.starttime = starttime;
+        this.driver = null;
+    }
+
     private String id;
     private String start;
     private String dest;
@@ -83,4 +91,27 @@ public class Ride implements Comparable<Ride>
     {
         guests.add(name);
     }
+
+    @Override
+    public Ride clone()
+    {
+        Ride toReturn = new Ride(this.start, this.dest, this.starttime, this.driver);
+        toReturn.setId(randomUUID().toString());
+        return toReturn;
+    }
+
+    // Zwei Fahrten sind gleich, wenn sie den gleichen Start und das Gleiche Ziel haben
+
+    @Override
+    public int hashCode ()
+    {
+        return start.hashCode() + dest.hashCode();
+    }
+
+    /*
+    public boolean equals(Ride ride)
+    {
+        return this.hashCode()==ride.hashCode();
+    }
+     */
 }
