@@ -29,7 +29,9 @@ public class SecSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.inMemoryAuthentication()
                 .withUser("leo").password(passwordEncoder().encode("123")).authorities("ROLE_USER")
                 .and()
-                .withUser("bene").password(passwordEncoder().encode("123")).authorities("ROLE_USER");
+                .withUser("bene").password(passwordEncoder().encode("123")).authorities("ROLE_USER")
+                .and()
+                .withUser("ines").password(passwordEncoder().encode("123")).authorities("ROLE_USER");
 
     }
 
