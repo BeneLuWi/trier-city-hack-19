@@ -156,7 +156,7 @@ const Sharer = ({}) => {
                                         className={"button timelineButton w3-animate-opacity"}
                                         style={{right: getDistanceRight(tour.starttime), position: "absolute", bottom: 0}}
                                         onClick={() => {
-                                            if(tour.isDriver || !tour.isOpen) return;
+
                                             setTour(tour);
                                             setShowBook(true);
                                         }}>
