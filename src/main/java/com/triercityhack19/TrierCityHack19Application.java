@@ -12,14 +12,4 @@ public class TrierCityHack19Application {
         SpringApplication.run(TrierCityHack19Application.class, args);
     }
 
-    /*
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("*").allowedOrigins("10.143.108.62:3000");
-            }
-        };
-    }
-     */
 }

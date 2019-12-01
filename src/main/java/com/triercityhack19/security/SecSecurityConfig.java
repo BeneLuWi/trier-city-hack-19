@@ -18,10 +18,19 @@ public class SecSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     SecUserDetailsService userDetailsService;
 
-    @Override
+/*    @Override
     protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
 
         auth.userDetailsService(userDetailsService);
+    }
+*/
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.inMemoryAuthentication()
+                .withUser("leo").password(passwordEncoder().encode("123")).authorities("ROLE_USER")
+                .and()
+                .withUser("bene").password(passwordEncoder().encode("123")).authorities("ROLE_USER");
+
     }
 
     @Override
