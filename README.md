@@ -3,7 +3,7 @@
 Innovative Kombination von bedarfsorientiertem ÖPNV und Logistiklösungen im ländlichen Raum.
 ## Unsere Lösung zur Challenge
 
-###Quick Start:
+##Quick Start:
 * `./mvnw clean install` oder `mvn clean install` (Wenn maven installiert ist)  
 * `java -jar target/triercityhack19-1.jar`
 * Die Web App läuft auf `localhost:8080`
